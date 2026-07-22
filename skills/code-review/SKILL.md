@@ -46,6 +46,7 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Duplicated Code** — the same logic shape appears in more than one hunk or file in the change. → extract the shared shape, call it from both.
 - **Feature Envy** — a method that reaches into another object's data more than its own. → move the method onto the data it envies.
 - **Data Clumps** — the same few fields or params keep travelling together (a type wanting to be born). → bundle them into one type, pass that.
+- **Tight Coupling** — two modules reach into each other's internals or lean on hidden shared assumptions, so neither can change alone. → introduce a seam (interface, event, explicit contract) so each side depends on the abstraction, not the other's guts.
 - **Primitive Obsession** — a primitive or string standing in for a domain concept that deserves its own type. → give the concept its own small type.
 - **Repeated Switches** — the same `switch`/`if`-cascade on the same type recurs across the change. → replace with polymorphism, or one map both sites share.
 - **Shotgun Surgery** — one logical change forces scattered edits across many files in the diff. → gather what changes together into one module.
@@ -54,6 +55,9 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Message Chains** — long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method on the first object.
 - **Middle Man** — a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest** — a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
+- **Long Parameter List** — a function's params have grown past what a caller can track. → fold the related ones into a type, or split the function.
+- **Temporal Coupling** — callers must invoke things in a specific unstated order for correctness. → make the order explicit in the API (builder, single entry point, or a type that only exists after the prior step ran).
+- **Leaky Abstraction** — a caller has to know how the layer beneath it works to use it correctly. → thicken the interface until it holds up without that inside knowledge.
 
 ### 4. Spawn both sub-agents in parallel
 
