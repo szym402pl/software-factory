@@ -21,10 +21,6 @@ echo.
 echo   DESIGN:  codebase-design (deep modules, seams)
 echo   DOMAIN:  domain-modeling (CONTEXT.md glossary)
 echo.
-echo ============================================
-echo   500 tokenow static contextu = pomaga.
-echo   5000 tokenow static contextu = przeszkadza.
-echo ============================================
 echo.
-cd /d "C:\Users\sebcz\Desktop\software factory"
+cd /d "C:\Users\sebcz\Desktop\software-factory"
 claude
