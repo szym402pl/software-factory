@@ -74,3 +74,23 @@ Clean up: `rm -rf "$TEMP"`
 ## Step 4 — Report
 
 List what was installed, where, and any files that were skipped/merged. Show the commit SHA if in mode A or B.
+
+## Step 5 — Post-install offers
+
+After reporting, offer these (if applicable):
+
+### 5a. Domain modeling (existing code only)
+
+If the target project has source files (>5), offer:
+
+"Existing code detected. Want me to run `domain-modeling` to extract domain terms and build CONTEXT.md?"
+
+If yes, invoke the `domain-modeling` skill.
+
+### 5b. Wayfinder (new projects only)
+
+If this is a new project (mode A), offer:
+
+"Want to plan the project? I can run `wayfinder` to map out multi-session work as decision tickets."
+
+If yes, invoke the `wayfinder` skill.
