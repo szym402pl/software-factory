@@ -4,14 +4,26 @@ echo ============================================
 echo   SOFTWARE FACTORY
 echo ============================================
 echo.
-echo   Nie budujesz harnessa.
-echo   Budujesz minimalny zestaw zasad,
-echo   ktory sprawi ze AI dziala jak senior dev,
-echo   a nie jak student na hackathonie.
+echo   SETUP (one-time): /setup-factory
 echo.
+echo   PLANNING (per feature):
+echo     grilling -^> cheat -^> to-spec -^> codebase-design -^> to-tickets
+echo.
+echo   IMPLEMENT (per ticket, ~1 session):
+echo     tdd (red-green) + workstation (2+ files) + code-review
+echo     After ticket: update docs/router.md
+echo.
+echo   SUPPORT (as needed):
+echo     diagnosing-bugs ^| research ^| prototype ^| merge-conflicts
+echo.
+echo   SESSION: /handoff
+echo.
+echo   DESIGN:  codebase-design (deep modules, seams)
+echo   DOMAIN:  domain-modeling (CONTEXT.md glossary)
+echo.
+echo ============================================
 echo   500 tokenow static contextu = pomaga.
 echo   5000 tokenow static contextu = przeszkadza.
-echo.
 echo ============================================
 echo.
 cd /d "C:\Users\sebcz\Desktop\software factory"
