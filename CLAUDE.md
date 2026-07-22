@@ -27,10 +27,10 @@
 - `domain-modeling` — CONTEXT.md glossary, ADRs. Keeps terminology precise across the whole project.
 
 **Build loop (user-invoked):**
-`grilling` sharpens ideas → `to-spec` crystallizes → `to-tickets` splits into tracer bullets. Prefer larger tickets (~1 session each) — workstation amortizes per-ticket overhead.
+`grilling` sharpens ideas → `cheat` (research existing solutions) → `to-spec` crystallizes → `to-tickets` splits into tracer bullets. Prefer larger tickets (~1 session each) — workstation amortizes per-ticket overhead.
 
 **Implementation loop (model-invoked):**
-`tdd` (red-green at pre-agreed seams) + `code-review` (2-axis: Standards + Spec per ticket). `codebase-design` vocabulary runs throughout.
+`tdd` (red-green at pre-agreed seams) + `code-review` (2 sub-agents after every ticket. 2-axis: Standards + Spec).
 After each ticket: update `docs/router.md` — add new modules, update changed responsibilities, remove deleted files. One line per file.
 
 **Emergency & support:**
