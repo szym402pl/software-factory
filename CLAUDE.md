@@ -2,7 +2,7 @@
 
 ## Rules
 
-- **Research-first.** Before building anything new: WebSearch → GitHub → npm. Someone already built it. Adapt, don't invent.
+- **Research-first.** Check installed deps and codebase first. Then WebSearch → GitHub → npm only if needed. Adopting anything → run it through `cheat`'s license/supply-chain check first.
 - **Branch gate.** Never edit `main` directly. Branch per feature/fix. Hook blocks it physically.
 - **Concision.** When reporting to the user, be extremely concise. Sacrifice grammar for concision.
 - **No Explore subagent.** Never use `Agent(subagent_type="Explore")`. Each spawn eats ~50K tokens (cold cache miss). Use Grep/Glob tools directly.

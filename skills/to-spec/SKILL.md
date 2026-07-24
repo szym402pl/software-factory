@@ -16,7 +16,7 @@ The issue tracker and triage label vocabulary should have been provided to you â
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage. If a cheat pass happened earlier in the conversation, include its output verbatim as ## Cheat Check.
 
 <spec-template>
 
@@ -27,6 +27,14 @@ The problem that the user is facing, from the user's perspective.
 ## Solution
 
 The solution to the problem, from the user's perspective.
+
+## Cheat Check
+
+What already existed before this got built:
+- Verdict: dissolved | found internally | stolen | adapted | built | killed by market
+- What we used: internal asset | design | structure | approach | code
+- From: <sources>
+- License check: <clear | flagged â€” note>
 
 ## User Stories
 
