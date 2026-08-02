@@ -1,27 +1,29 @@
 # Phase 3 — Code cheat routing
 
-Two things: project type → cheat surfaces, and hybrid depth with user checkpoints.
+Two things: fixed-mechanism sourcing by project type, and hybrid depth with user checkpoints.
 
-## Project-type → cheat surfaces
+**This phase is for fixed mechanisms only** (per PHILOSOPHY.md #5/#6 and the ladder in SKILL.md) — libraries, packages, stdlib functions that solve a well-defined, interchangeable sub-problem. It is not for finding whole apps or features to clone; that's prior-art research (Phase 2, → [[prior-art-ladder]]), and even there it's study-only, never adopted as code.
 
-Match your project. Follow the sequence. Different types have different cheat surfaces — the creative ladder already covered design/structure/approach theft. This is for the code hunt.
+## Project-type → fixed-mechanism sources
+
+Match your project. These surface *libraries and packages* — things you install as a dependency, not code you copy in. If what you actually need is architecture/approach inspiration for the project as a whole, that's Phase 2, not this list.
 
 | Project type | Try in order | Looking for |
 |---|---|---|
-| **Website / landing page** | 1. Dribbble / Awwwards (design already stolen in Phase 2) 2. Tailwind UI / shadcn blocks 3. GitHub: `[name] landing page` | Layout components, existing pages |
-| **Web app / SaaS** | 1. GitHub: `[name] clone`, `awesome-selfhosted` 2. ProductHunt: recent launches 3. `X alternative open source` 4. `[stack] saas template` | Existing apps, clones, templates |
-| **CLI tool** | 1. npm / PyPI: keyword search 2. GitHub: `[name]-cli`, `awesome-cli` 3. Homebrew: search formulas | Existing tools, CLI structure |
-| **API / backend** | 1. GitHub: `[domain]-api`, `awesome-[stack]` 2. Postman / OpenAPI specs 3. `[domain] backend open source` | Existing implementations |
-| **Data pipeline / ETL** | 1. GitHub: `[source]-to-[target]`, `awesome-data-engineering` 2. Prefect / Airflow / Dagster templates | Existing pipelines |
-| **Mobile app** | 1. GitHub: `[name] clone react-native` 2. Expo / Flutter templates 3. App Store / Play Store: competitor features | Existing apps, templates |
-| **Library / SDK** | 1. npm / PyPI / crates.io: `[domain]` 2. GitHub: `[language] [domain]`, `awesome-[domain]` 3. `[function] polyfill` / `[function] implementation` | Existing implementations |
-| **Dashboard / admin panel** | 1. GitHub: `admin dashboard [stack]` 2. Tabler / AdminLTE / shadcn blocks 3. Retool / Appsmith / Budibase: check free tier | Existing panels, templates |
-| **Documentation site** | 1. Starlight / Docusaurus / VuePress themes 2. Mintlify / GitBook: check free tier 3. GitHub: `docs template [stack]` | Structure, templates |
-| **Browser extension** | 1. GitHub: `[name] extension` 2. Chrome Web Store: competitor extensions 3. `[stack] extension starter` | Existing extensions |
-| **Game** | 1. GitHub: `[genre] game open source` 2. itch.io: open-source tag 3. Godot / Unity asset store free 4. `[classic game] clone [engine]` | Existing games, engines |
-| **AI / ML app** | 1. Hugging Face Spaces: search by task 2. Replicate: explore models 3. GitHub: `[domain] AI`, `awesome-[domain]-ai` 4. Vercel AI templates, LangChain examples | Existing apps, models |
-| **Chatbot / agent** | 1. GitHub: `[platform] bot [domain]` 2. Discord Bot List / Slack App Directory 3. Botpress / Rasa / Botkit examples 4. LangChain / LlamaIndex cookbook | Existing bots, frameworks |
-| **Desktop app** | 1. GitHub: `[name] electron`, `[name] tauri` 2. AlternativeTo: `[app name] open source` 3. `[app name] clone [framework]` | Existing apps, clones |
+| **Website / landing page** | 1. Tailwind UI / shadcn/ui component primitives (copy-in UI primitives, not page/product structure) 2. npm: animation/form/validation libs as needed | Reusable UI primitives, not page structure |
+| **Web app / SaaS** | 1. npm / PyPI: auth, billing, email, queue libs 2. `awesome-[stack]` for known-good libraries in that ecosystem | Libraries for auth/billing/etc., not the app itself |
+| **CLI tool** | 1. npm / PyPI: argument-parsing, terminal-UI libs 2. `awesome-cli` for known-good CLI libraries | Libraries, not full CLI clones |
+| **API / backend** | 1. npm / PyPI: validation, ORM, auth middleware libs 2. Postman / OpenAPI specs — as a reference for conventions, not code | Libraries for cross-cutting concerns |
+| **Data pipeline / ETL** | 1. npm / PyPI: connector/transform libs 2. Prefect / Airflow / Dagster — as orchestration dependencies if already adopted | Libraries and orchestration tools |
+| **Mobile app** | 1. npm (React Native) / pub.dev (Flutter): navigation, state, native-bridge libs | Libraries, not full app clones |
+| **Library / SDK** | 1. npm / PyPI / crates.io: `[domain]` — is this mechanism itself already a published, well-maintained package? 2. `[function] polyfill` / `[function] implementation` for a narrow missing piece | Whether the whole mechanism already exists as a dependency |
+| **Dashboard / admin panel** | 1. Tabler / AdminLTE / shadcn blocks (UI primitives) 2. npm: charting/table libs | Reusable UI primitives, not full panel structure |
+| **Documentation site** | 1. Starlight / Docusaurus / Mintlify — as the doc-generation dependency itself, config-driven | The doc tool as a dependency, not hand-built docs |
+| **Browser extension** | 1. npm: extension-manifest/messaging helper libs | Libraries for the extension APIs |
+| **Game** | 1. Godot / Unity asset store: art/audio assets, physics/math libs 2. Well-established algorithm libs (pathfinding, collision) | Libraries and assets, not full game clones |
+| **AI / ML app** | 1. Hugging Face / Replicate: is the model itself the fixed mechanism you need? 2. LangChain / LlamaIndex as orchestration dependencies if already adopted | Models and orchestration libraries |
+| **Chatbot / agent** | 1. npm / PyPI: platform SDKs (Slack, Discord, Telegram) 2. LangChain / LlamaIndex if already adopted | Platform SDKs, not full bot clones |
+| **Desktop app** | 1. npm: Electron/Tauri plugin ecosystem for native OS integration | Plugins for OS-level mechanisms |
 
 ## Hybrid depth
 
@@ -30,41 +32,31 @@ Start shallow. Go deeper only if needed. User checkpoint at each escalation.
 ```
 quick-scan (mental, free)
     ↓
-  Found something obvious? → done. Verdict: "Use X."
+  Obvious fixed mechanism, known library? → done. Verdict: "Use X."
     ↓ nothing obvious OR "not quite right"
 standard (2-3 searches, ~30s)
     ↓
-  Found something? → "Found X, Y, Z. Use one? Or go deeper?"
+  Found something? → "Found X, Y, Z. Use one, or is this actually our own logic to build?"
     ↓ nothing found OR user wants deeper
 deep (6-10 searches, full landscape)
     ↓
-  Verdict: Build | Fork | Contribute | Use | Investigate
+  Verdict: Genuinely our own logic — build it | Fixed mechanism — use library X | Investigate further
 ```
 
-**Rule:** Never jump to deep because it "feels thorough." Most projects are NOT novel. Quick-scan costs 0. Standard covers 80%. Deep is for genuinely uncharted territory.
+**Rule:** Never jump to deep because it "feels thorough." Most sub-problems are NOT novel mechanisms. Quick-scan costs 0. Standard covers 80%. Deep is for genuinely unclear cases (is this actually a fixed mechanism, or did it just look like one?).
 
-**Checkpoint script:** "Found [N] options. [Best one in one line]. Want to go deeper or run with this?"
+**Checkpoint script:** "Found [N] library options. [Best one in one line]. Use it, or is this actually specific enough to our product that we should build it ourselves?"
 
 ## Source registry
 
-What each source is good for — so you know WHERE to cheat, not just that you should.
+What each source is good for — so you know WHERE to look for fixed mechanisms, not just that you should.
 
 | Source | Best for | Not for |
 |--------|----------|---------|
-| **GitHub** | Clones, implementations, structure, libraries | Design, visual approach |
-| **npm / PyPI / crates.io** | Libraries, tools, SDKs | Full apps usually |
-| **Dribbble / Behance** | Visual design, layout, UX patterns | Code, implementation |
-| **Awwwards** | Full-site design, structure, case studies | Code |
-| **ThemeForest / Creative Market** | Design reference, layout theft | Buying usually (just screenshot) |
-| **ProductHunt** | Recent launches, what's shipping, approach | Mature/stable implementations |
-| **awesome-* lists** | Curated landscape, "what exists" | Implementation details |
-| **Hugging Face / Replicate** | ML models, AI demos, approach | Production backends |
-| **YouTube** | Approach, workflow, architecture decisions | Production code |
-| **HN / Reddit** | User sentiment, what failed, honest reviews | Structured data, completeness |
-| **Stack Overflow** | Specific technical problems | "What should I build?" |
-| **arXiv** | Novel algorithms, academic state-of-art | Production-ready code |
-| **AlternativeTo / opensourcealternative.to** | Open-source replacements for paid tools | Niche/novel projects |
-| **Landing page galleries** | Design patterns, layout inspiration | Code, functionality |
-| **WordPress theme demos** | Structure, layout, content organization | Modern web apps usually |
-| **Discord Bot List / Slack App Directory** | Existing bot functionality, UX patterns | Code quality |
-| **Expo / Flutter templates** | Mobile app structure, navigation patterns | Backend logic |
+| **npm / PyPI / crates.io** | Libraries, tools, SDKs — the actual dependency to install | Full apps, our own product logic |
+| **GitHub (code search, not clones)** | Finding which library solves a mechanism, reading a library's own source when docs are thin | Cloning whole projects/features |
+| **awesome-* lists** | Curated landscape of libraries for an ecosystem | Implementation details, full apps |
+| **Hugging Face / Replicate** | ML models as the fixed mechanism itself | Production backend logic |
+| **Stack Overflow** | Specific technical problems with a library/API | "What should I build?" |
+| **arXiv** | Novel algorithms, academic state-of-art (research the algorithm, then implement it ourselves or find a library that already does) | Production-ready code to copy |
+| **AlternativeTo / opensourcealternative.to** | Discovering whether a whole mechanism (e.g. "self-hosted analytics") already exists as an installable tool | Niche/novel projects, our own product |
