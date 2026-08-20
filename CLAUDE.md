@@ -7,6 +7,7 @@
 - **Concision.** When reporting to the user, be extremely concise. Sacrifice grammar for concision.
 - **No Explore subagent.** Never use `Agent(subagent_type="Explore")`. Each spawn eats ~50K tokens (cold cache miss). Use Grep/Glob tools directly.
 - **Only factory skills.** Never invoke skills outside `skills/` directory. No caveman, no ponytail, no external plugins.
+- **STE writing.** When writing docs (README, spec, tickets, comments): read `STE-Writing-Rules-Condensed.txt` first and follow it.
 
 ## Navigation
 
