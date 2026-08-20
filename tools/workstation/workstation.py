@@ -12,60 +12,172 @@ Usage:
 Workflow:
   pack --output workstation.md → Read once → Edit freely → unpack --test → repeat.
   Single Read replaces N Reads across the edit loop.
+
+Safety:
+  Each pack run stamps a random nonce into its delimiters and writes a MANIFEST
+  header listing the exact files packed. unpack() re-parses the file using that
+  same nonce, then validates the parsed sections against the manifest — same
+  paths, same count, same order — BEFORE writing anything back to disk. If a
+  delimiter line got mangled by an edit, or file content happens to contain
+  literal delimiter-shaped text, the mismatch is caught and unpack aborts with
+  no files written, instead of silently corrupting or merging file contents.
 """
 
 import sys
 import subprocess
+import secrets
 from pathlib import Path
 
 
-DELIMITER = "### ═══ FILE:"
-TEST_DELIMITER = "### ═══ TEST OUTPUT"
-TEST_DELIMITER_END = "### ═══ END TEST OUTPUT"
+MANIFEST_PREFIX = "### ═══ MANIFEST"
+TEST_MARKER = "TEST OUTPUT"
+
+
+def make_nonce() -> str:
+    return secrets.token_hex(4)
+
+
+def file_delimiter(nonce: str) -> str:
+    return f"### ═══ FILE[{nonce}]:"
+
+
+def test_delimiter(nonce: str) -> str:
+    return f"### ═══ {TEST_MARKER}[{nonce}]"
+
+
+def test_delimiter_end(nonce: str) -> str:
+    return f"### ═══ END {TEST_MARKER}[{nonce}]"
 
 
 def pack(file_paths: list[str]) -> str:
-    """Read files and produce workstation.md content."""
+    """Read files and produce workstation.md content, stamped with a nonce
+    and a manifest so unpack() can validate before writing anything back."""
+    nonce = make_nonce()
+    fdelim = file_delimiter(nonce)
+    tdelim = test_delimiter(nonce)
+    tdelim_end = test_delimiter_end(nonce)
+
     parts = []
+    manifest_paths = []
+    warnings = []
+
     for path in file_paths:
         p = Path(path)
         try:
             content = p.read_text(encoding="utf-8")
         except FileNotFoundError:
-            parts.append(f"{DELIMITER} {path} ═══\n")
+            parts.append(f"{fdelim} {path} ═══\n")
             parts.append(f"(FILE NOT FOUND: {path})\n\n")
+            manifest_paths.append(path)
             continue
         except (UnicodeDecodeError, PermissionError) as e:
-            parts.append(f"{DELIMITER} {path} ═══\n")
+            parts.append(f"{fdelim} {path} ═══\n")
             parts.append(f"(ERROR reading {path}: {e})\n\n")
+            manifest_paths.append(path)
             continue
 
-        parts.append(f"{DELIMITER} {path} ═══\n")
+        # Guard: warn (don't silently corrupt) if content already contains
+        # something delimiter-shaped. The nonce makes an exact collision
+        # astronomically unlikely, but a near-miss is worth flagging.
+        if "### ═══ FILE" in content or "### ═══ MANIFEST" in content:
+            warnings.append(path)
+
+        parts.append(f"{fdelim} {path} ═══\n")
         parts.append(content)
         if not content.endswith("\n"):
             parts.append("\n")
         parts.append("\n")
+        manifest_paths.append(path)
 
-    parts.append(f"{TEST_DELIMITER} (last run) ═══\n")
-    parts.append("(no test output yet — run unpack --test)\n")
-    parts.append(f"{TEST_DELIMITER_END} ═══\n")
+    manifest_lines = "\n".join(f"  - {mp}" for mp in manifest_paths)
+    manifest = (
+        f"{MANIFEST_PREFIX}[{nonce}] ═══\n"
+        f"files: {len(manifest_paths)}\n"
+        f"{manifest_lines}\n"
+        f"{MANIFEST_PREFIX}-END ═══\n\n"
+    )
 
-    return "".join(parts)
+    body = "".join(parts)
+    body += f"{tdelim} (last run) ═══\n"
+    body += "(no test output yet — run unpack --test)\n"
+    body += f"{tdelim_end} ═══\n"
+
+    if warnings:
+        print(
+            "  WARNING: possible delimiter-shaped text found in: "
+            + ", ".join(warnings)
+            + " — nonce should still keep sections separated correctly, "
+              "but double-check the unpack validation output."
+        )
+
+    return manifest + body
+
+
+def read_manifest(text: str) -> tuple[str, list[str]]:
+    """Extract (nonce, expected_paths) from the MANIFEST header.
+    Raises ValueError if no manifest is found (e.g. hand-edited or
+    pre-guard workstation.md) — caller should treat this as unsafe to unpack."""
+    lines = text.splitlines()
+    nonce = None
+    expected: list[str] = []
+    in_manifest = False
+
+    for line in lines:
+        if line.startswith(MANIFEST_PREFIX) and line.endswith("-END ═══"):
+            break
+        if line.startswith(MANIFEST_PREFIX):
+            # ### ═══ MANIFEST[abcd1234] ═══
+            inner = line[len(MANIFEST_PREFIX):]
+            if "[" in inner and "]" in inner:
+                nonce = inner[inner.index("[") + 1: inner.index("]")]
+            in_manifest = True
+            continue
+        if in_manifest and line.strip().startswith("- "):
+            expected.append(line.strip()[2:])
+
+    if nonce is None:
+        raise ValueError(
+            "No MANIFEST header found — this workstation.md wasn't produced "
+            "by the current pack(), or the header was edited/removed. "
+            "Refusing to unpack: cannot safely validate section boundaries."
+        )
+    return nonce, expected
 
 
 def unpack(workstation_path: str, test_cmd: str | None = None, tail_lines: int = 0) -> None:
-    """Parse workstation.md, write files back, optionally run tests.
-    tail_lines: if > 0, keep only last N lines of test output.
-    """
+    """Parse workstation.md, VALIDATE against its manifest, and only then
+    write files back. Runs tests afterward if requested."""
     text = Path(workstation_path).read_text(encoding="utf-8")
 
-    # Split into sections by the DELIMITER
-    sections = split_by_delimiter(text)
+    try:
+        nonce, expected_paths = read_manifest(text)
+    except ValueError as e:
+        print(f"  ABORTED: {e}")
+        sys.exit(1)
+
+    fdelim = file_delimiter(nonce)
+    tdelim = test_delimiter(nonce)
+
+    sections = split_by_delimiter(text, fdelim, tdelim)
+    parsed_paths = [path for path, _ in sections]
+
+    # Validate before writing anything: same set, same count, same order.
+    # A mismatch means a delimiter line was mangled, duplicated, or content
+    # collided with delimiter-shaped text — don't guess, abort.
+    mismatches = diff_manifest(expected_paths, parsed_paths)
+    if mismatches:
+        print("  ABORTED: parsed sections don't match the manifest — nothing was written.")
+        for m in mismatches:
+            print(f"    {m}")
+        print(
+            "  This usually means a FILE delimiter line was edited/deleted, "
+            "or file content collided with delimiter-shaped text. "
+            "Re-pack from the original files and redo the edit."
+        )
+        sys.exit(1)
 
     written_files = []
     for file_path, content in sections:
-        if not file_path:
-            continue
         p = Path(file_path)
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(content, encoding="utf-8")
@@ -77,10 +189,33 @@ def unpack(workstation_path: str, test_cmd: str | None = None, tail_lines: int =
         return
 
     if test_cmd:
-        run_tests_and_append(workstation_path, test_cmd, tail_lines)
+        run_tests_and_append(workstation_path, test_cmd, nonce, tail_lines)
 
 
-def run_tests_and_append(workstation_path: str, test_cmd: str, tail_lines: int = 0) -> None:
+def diff_manifest(expected: list[str], parsed: list[str]) -> list[str]:
+    """Return a list of human-readable mismatch descriptions, empty if clean."""
+    issues = []
+    if expected == parsed:
+        return issues
+
+    expected_set, parsed_set = set(expected), set(parsed)
+    missing = [p for p in expected if p not in parsed_set]
+    extra = [p for p in parsed if p not in expected_set]
+    dupes = [p for p in parsed if parsed.count(p) > 1]
+
+    if missing:
+        issues.append(f"missing sections (in manifest, not found in body): {missing}")
+    if extra:
+        issues.append(f"unexpected sections (found in body, not in manifest): {extra}")
+    if dupes:
+        issues.append(f"duplicate sections (likely a merged/split file): {sorted(set(dupes))}")
+    if not issues and expected != parsed:
+        issues.append(f"same files but different order: expected {expected}, got {parsed}")
+
+    return issues
+
+
+def run_tests_and_append(workstation_path: str, test_cmd: str, nonce: str, tail_lines: int = 0) -> None:
     """Run test command and append output to workstation.md.
     tail_lines: if > 0, keep only last N lines + preserve any line containing 'FAIL' or 'Error:'.
     """
@@ -104,46 +239,44 @@ def run_tests_and_append(workstation_path: str, test_cmd: str, tail_lines: int =
 
     status = "PASS" if exit_code == 0 else f"FAIL (exit {exit_code})"
 
-    # Smart truncate: keep failure-signaling lines + tail
     if tail_lines > 0:
         output = smart_truncate(output, tail_lines)
 
-    # Read current workstation, strip old TEST OUTPUT section, append new
+    tdelim = test_delimiter(nonce)
+    tdelim_end = test_delimiter_end(nonce)
+
     text = Path(workstation_path).read_text(encoding="utf-8")
-    text = strip_test_section(text)
+    text = strip_test_section(text, tdelim)
 
     new_section = (
-        f"{TEST_DELIMITER} (last run) ═══\n"
+        f"{tdelim} (last run) ═══\n"
         f"Status: {status}\n"
         f"Command: {test_cmd}\n"
         f"{'─' * 60}\n"
         f"{output.strip()}\n"
-        f"{TEST_DELIMITER_END} ═══\n"
+        f"{tdelim_end} ═══\n"
     )
 
     Path(workstation_path).write_text(text.rstrip("\n") + "\n\n" + new_section, encoding="utf-8")
     print(f"  test: {status}")
 
 
-def split_by_delimiter(text: str) -> list[tuple[str, str]]:
-    """Parse workstation.md into list of (file_path, content)."""
+def split_by_delimiter(text: str, fdelim: str, tdelim: str) -> list[tuple[str, str]]:
+    """Parse workstation.md into list of (file_path, content), using this
+    pack's nonce-stamped delimiters. Content between MANIFEST-END and the
+    first FILE delimiter (or stray text outside any section) is ignored."""
     lines = text.splitlines(keepends=True)
     sections: list[tuple[str, str]] = []
     current_path: str | None = None
     current_lines: list[str] = []
 
     for line in lines:
-        if line.startswith(DELIMITER) and not line.startswith(TEST_DELIMITER):
-            # Save previous section
+        if line.startswith(fdelim):
             if current_path is not None:
                 sections.append((current_path, join_content(current_lines)))
-            # Start new section
-            current_path = parse_file_path(line)
+            current_path = parse_file_path(line, fdelim)
             current_lines = []
-        elif line.startswith(TEST_DELIMITER):
-            # Stop collecting file content — any following sections after test
-            # output would be re-split anyway, but stop here to avoid capturing
-            # test output as file content.
+        elif line.startswith(tdelim):
             if current_path is not None:
                 sections.append((current_path, join_content(current_lines)))
             current_path = None
@@ -151,29 +284,23 @@ def split_by_delimiter(text: str) -> list[tuple[str, str]]:
         elif current_path is not None:
             current_lines.append(line)
 
-    # Last section
     if current_path is not None:
         sections.append((current_path, join_content(current_lines)))
 
     return sections
 
 
-def parse_file_path(line: str) -> str:
-    """Extract file path from delimiter line.
-    Format: ### ═══ FILE: src/foo.ts ═══
-    """
-    # Remove the prefix and suffix
-    inner = line.removeprefix(DELIMITER).strip()
-    # Remove trailing box chars
+def parse_file_path(line: str, fdelim: str) -> str:
+    """Extract file path from a delimiter line: '<fdelim> src/foo.ts ═══'."""
+    inner = line[len(fdelim):].strip()
     inner = inner.removesuffix("═══").strip()
     return inner
 
 
 def join_content(lines: list[str]) -> str:
-    """Join content lines, stripping trailing newlines (exactly one at end)."""
+    """Join content lines, stripping trailing blank lines (exactly one at end)."""
     if not lines:
         return ""
-    # Strip trailing empty lines (blank lines before next section or EOF)
     while lines and lines[-1].strip() == "":
         lines.pop()
     if not lines:
@@ -182,8 +309,7 @@ def join_content(lines: list[str]) -> str:
 
 
 def smart_truncate(output: str, max_lines: int) -> str:
-    """Keep last N lines + any FAIL/Error lines from the dropped prefix.
-    Ensures error messages are never lost even if they're above the tail window."""
+    """Keep last N lines + any FAIL/Error lines from the dropped prefix."""
     lines = output.splitlines()
     if len(lines) <= max_lines:
         return output
@@ -191,7 +317,6 @@ def smart_truncate(output: str, max_lines: int) -> str:
     tail = lines[-max_lines:]
     prefix = lines[:-max_lines]
 
-    # Collect failure-signaling lines from prefix
     signals = []
     for line in prefix:
         stripped = line.strip()
@@ -207,17 +332,11 @@ def smart_truncate(output: str, max_lines: int) -> str:
         return "... (" + str(len(lines) - max_lines) + " lines truncated) ...\n" + "\n".join(tail)
 
 
-def strip_test_section(text: str) -> str:
-    """Remove everything from first TEST_DELIMITER to end."""
-    idx = text.find(TEST_DELIMITER)
+def strip_test_section(text: str, tdelim: str) -> str:
+    """Remove everything from the first test delimiter to end."""
+    idx = text.find(tdelim)
     if idx == -1:
         return text
-    # Also look for the end delimiter to be safe
-    end_idx = text.find(TEST_DELIMITER_END)
-    if end_idx != -1:
-        end_line_end = text.find("\n", end_idx)
-        if end_line_end != -1:
-            return text[:idx].rstrip("\n") + "\n"
     return text[:idx].rstrip("\n") + "\n"
 
 
@@ -229,7 +348,6 @@ def main():
     cmd = sys.argv[1]
 
     if cmd == "pack":
-        # Parse: pack file1 file2 ... --output workstation.md
         args = sys.argv[2:]
         output_path = None
         files = []
