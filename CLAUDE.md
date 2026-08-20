@@ -6,6 +6,7 @@
 - **Branch gate.** Never edit `main` directly. Branch per feature/fix. Hook blocks it physically.
 - **Concision.** When reporting to the user, be extremely concise. Sacrifice grammar for concision.
 - **No Explore subagent.** Never use `Agent(subagent_type="Explore")`. Each spawn eats ~50K tokens (cold cache miss). Use Grep/Glob tools directly.
+- **Read lean.** Grep before Read. For a few lines, Grep with `-n -C`, or Read with `offset`/`limit` — never the whole file. Full Read only when the whole file is the unit (short file, or you need the full shape).
 - **Only factory skills.** Never invoke skills outside `skills/` directory. No caveman, no ponytail, no external plugins.
 - **STE writing.** When writing docs (README, spec, tickets, comments): read `STE-Writing-Rules-Condensed.txt` first and follow it.
 
