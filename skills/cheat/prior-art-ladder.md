@@ -22,7 +22,7 @@ Verdict options:
 
 ## Rung 2: Check existing stack
 
-Before looking for anything new — does the project already depend on something that quietly does this? An auth library that already supports SSO, an ORM feature that already handles soft-deletes, a queue that already supports delayed jobs. This is genuine reuse — it's infrastructure we already chose, not our product's own logic. Turn on a feature before adding a dependency; add a dependency before writing custom code for something that's a fixed mechanism (see [[routing]] for that distinction).
+Before looking for anything new — does the project already depend on something that quietly does this? An auth library that already supports SSO, an ORM feature that already handles soft-deletes, a queue that already supports delayed jobs. This is reuse — it's infrastructure we already chose, not our product's own logic. Turn on a feature before adding a dependency; add a dependency before writing custom code for something that's a fixed mechanism (see [[routing]] for that distinction).
 
 ## Exit
 
@@ -30,7 +30,7 @@ Before looking for anything new — does the project already depend on something
 |-------------|------|
 | Prior art found — pattern to build from | Build our own version informed by it. → Phase 3 |
 | Existing dependency covers it | Verdict: `found in stack`. Use it. |
-| Nothing found | "Genuine gap, no prior art to lean on. Proceed to code cheat." → Phase 3 |
+| Nothing found | "A real gap, no prior art to lean on. Proceed to code cheat." → Phase 3 |
 | User says "just build it" | Respect it. → Phase 3 |
 
 Every rung that finds something → surface it to the user before proceeding. Don't grind forward silently.

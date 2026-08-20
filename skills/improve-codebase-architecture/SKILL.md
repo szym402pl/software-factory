@@ -28,14 +28,14 @@ Then use Grep and Glob tools to walk the codebase directly — no Explore subage
 
 - Where does understanding one concept require bouncing between many small modules?
 - Where are modules **shallow** — interface nearly as complex as the implementation?
-- Where have pure functions been extracted just for testability, but the real bugs hide in how they're called (no **locality**)?
+- Where have pure functions been extracted for testability, but the real bugs hide in how they're called (no **locality**)?
 - Where do tightly-coupled modules leak across their seams?
 - Which parts of the codebase are untested, or hard to test through their current interface?
 - Where do tests live in a mirror tree far from their source, instead of co-located in the same directory?
 - Where does shared infrastructure import from feature directories, reversing the dependency direction?
 - Where do barrel files or re-export packages obscure the real dependency graph?
 
-Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
+Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or move it? A "yes, concentrates" is the signal you want.
 
 ### 2. Present candidates as an HTML report
 

@@ -88,6 +88,5 @@ GR-2  The preposition "with"
 GR-3  How to use pronouns
 GR-4  The pronoun "this"
 GR-5  False friends
-GR-6  Latin abbreviations
-GR-7  Inclusive language
-GR-8  Possessive form
+GR-6  Inclusive language
+GR-7  Possessive form

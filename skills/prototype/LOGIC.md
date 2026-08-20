@@ -21,7 +21,7 @@ Before writing code, write down what state model and what question you're protot
 
 Use whatever the host project uses. If the project has no obvious runtime (e.g. a docs repo), ask.
 
-Match the project's existing conventions for tooling — don't add a new package manager or runtime just for the prototype.
+Match the project's existing conventions for tooling — don't add a new package manager or runtime for the prototype.
 
 ### 3. Isolate the logic in a portable module
 
@@ -31,8 +31,8 @@ The right shape depends on the question:
 
 - **A pure reducer** — `(state, action) => state`. Good when actions are discrete events and state is a single value.
 - **A state machine** — explicit states and transitions. Good when "which actions are even legal right now" is part of the question.
-- **A small set of pure functions** over a plain data type. Good when there's no implicit current state — just transformations.
-- **A class or module with a clear method surface** when the logic genuinely owns ongoing internal state.
+- **A small set of pure functions** over a plain data type. Good when there's no implicit current state — transformations.
+- **A class or module with a clear method surface** when the logic owns ongoing internal state.
 
 Pick whichever shape best fits the question being asked, *not* whichever is easiest to wire to a TUI. Keep it pure: no I/O, no terminal code, no `console.log` for control flow. The TUI imports it and calls into it; nothing flows the other direction.
 
@@ -60,11 +60,11 @@ The whole frame should fit on one screen.
 
 Add a script to the project's existing task runner (`package.json` scripts, `Makefile`, `justfile`, `pyproject.toml`). The user should run `pnpm run <prototype-name>` or equivalent — never need to remember a path.
 
-If the host project has no task runner, just put the command at the top of the prototype's README.
+If the host project has no task runner, put the command at the top of the prototype's README.
 
 ### 6. Hand it over
 
-Give the user the run command. They'll drive it themselves; the interesting moments are when they say "wait, that shouldn't be possible" or "huh, I assumed X would be different" — those are the bugs in the _idea_, which is the whole point. If they want new actions added, add them. Prototypes evolve.
+Give the user the run command. They'll drive it themselves; the interesting moments are when they say "wait, that shouldn't be possible" or "huh, I assumed X would be different" — those are the bugs in the _idea_, which is the point. If they want new actions added, add them. Prototypes evolve.
 
 ### 7. Capture the answer and the prototype
 

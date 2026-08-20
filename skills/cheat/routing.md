@@ -40,10 +40,10 @@ standard (2-3 searches, ~30s)
     ↓ nothing found OR user wants deeper
 deep (6-10 searches, full landscape)
     ↓
-  Verdict: Genuinely our own logic — build it | Fixed mechanism — use library X | Investigate further
+  Verdict: our own logic — build it | Fixed mechanism — use library X | Investigate further
 ```
 
-**Rule:** Never jump to deep because it "feels thorough." Most sub-problems are NOT novel mechanisms. Quick-scan costs 0. Standard covers 80%. Deep is for genuinely unclear cases (is this actually a fixed mechanism, or did it just look like one?).
+**Rule:** Never jump to deep because it "feels thorough." Most sub-problems are NOT novel mechanisms. Quick-scan costs 0. Standard covers 80%. Deep is for unclear cases (is this actually a fixed mechanism, or did it just look like one?).
 
 **Checkpoint script:** "Found [N] library options. [Best one in one line]. Use it, or is this actually specific enough to our product that we should build it ourselves?"
 

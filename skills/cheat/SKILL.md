@@ -22,7 +22,7 @@ Route by project type to the right cheat surfaces, then go only as deep as neces
 |-------|------|------|
 | Quick-scan | Obvious stdlib/known answer | [[quick-scan]] |
 | Standard | Common problem, "someone built this" | [[standard]] |
-| Deep | Genuinely novel territory | [[deep]] |
+| Deep | novel territory | [[deep]] |
 
 Override: `/cheat --quick` or `/cheat --deep`.
 
@@ -35,12 +35,12 @@ Stop at the first rung that holds. User decides at each rung.
 
 **Prior art (research, never reuse):**
 1. **Study prior art** — open-source clones, "X built with Y", awesome lists, starter kits. This is for architecture and approach only — never fork, vendor, or copy-paste someone's implementation into ours. Extract the pattern; we still build our own version.
-2. **Check existing stack** — does a dependency or service already in the project quietly do this? This is genuine reuse (it's infrastructure, not our product's own logic) — use it.
+2. **Check existing stack** — does a dependency or service already in the project quietly do this? This is reuse (it's infrastructure, not our product's own logic) — use it.
 
 **Code — ours from scratch, except fixed mechanisms:**
 3. **Fixed-mechanism check** — is this a solved, interchangeable problem (an algorithm, a protocol implementation, a crypto primitive, a stdlib-level utility) where we have no meaningful room to do it differently or better? Or is it our product's own logic/structure?
    - **Fixed mechanism** → stdlib? → native platform? → already-installed dep? → established library (check license + maintenance health, see [[routing]])? Use it, don't hand-roll it.
-   - **Our own logic** → no shortcut. Code it from scratch, informed by rung 1's research. One line if one line genuinely does it; otherwise the minimum code that works.
+   - **Our own logic** → no shortcut. Code it from scratch, informed by rung 1's research. One line if one line does it; otherwise the minimum code that works.
 
 Numbers are ordering, not a contract — treat this as one continuous spectrum, cheapest first, not a checklist to march through regardless of fit.
 
@@ -50,7 +50,7 @@ Applies to fixed mechanisms pulled in as dependencies (rung 3) — our own produ
 
 - **Code (GitHub, npm, etc.)** — check the license file before adding a dependency. Copyleft (GPL, AGPL) can force your project's license. Confirm compatibility before installing.
 
-If a candidate library's license is unclear or restrictive → don't vendor its code as a workaround. Either find an alternative library, or confirm this is genuinely our own logic and build it from scratch.
+If a candidate library's license is unclear or restrictive → don't vendor its code as a workaround. Either find an alternative library, or confirm this is our own logic and build it from scratch.
 
 ## Rules
 

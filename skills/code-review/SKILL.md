@@ -53,7 +53,7 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Divergent Change** — one file or module is edited for several unrelated reasons. → split so each module changes for one reason.
 - **Speculative Generality** — abstraction, parameters, or hooks added for needs the spec doesn't have. → delete it; inline back until a real need shows.
 - **Message Chains** — long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method on the first object.
-- **Middle Man** — a class or function that mostly just delegates onward. → cut it, call the real target direct.
+- **Middle Man** — a class or function that mostly delegates onward. → cut it, call the real target direct.
 - **Refused Bequest** — a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 - **Long Parameter List** — a function's params have grown past what a caller can track. → fold the related ones into a type, or split the function.
 - **Temporal Coupling** — callers must invoke things in a specific unstated order for correctness. → make the order explicit in the API (builder, single entry point, or a type that only exists after the prior step ran).

@@ -12,7 +12,7 @@ Full who-solved-this-before-me approach, aimed at fixed mechanisms (see PHILOSOP
 4. **Cluster** — Direct / Adjacent / Partial / Abandoned (with last commit date)
 5. **Vet supply chain** — for anything headed toward "use as a dependency": license type (flag copyleft), maintainer count, release cadence, known CVEs. A small, single-maintainer package with a recent CVE is a worse bet than an older, boring, widely-used one — "abandoned" isn't the only red flag.
 6. **Extract patterns** — common architecture, libraries, naming — for our own build, not to copy
-7. **Benchmark** — one honest paragraph: is this genuinely a fixed mechanism, or does our product's angle mean we should build it ourselves?
+7. **Benchmark** — one honest paragraph: is this a fixed mechanism, or does our product's angle mean we should build it ourselves?
 8. **Verdict** — Build it ourselves / Use existing library (dependency) / Contribute upstream instead of duplicating / Investigate first / Killed by market
 
 ## Budget
@@ -25,7 +25,7 @@ Full who-solved-this-before-me approach, aimed at fixed mechanisms (see PHILOSOP
 
 ## Killed by market
 
-If deep research turns up several independent attempts at the same idea, all abandoned, with a consistent reason (not just "ran out of time") — that's a distinct signal from "nothing exists" (proceed to build) or "a library exists" (use it). Surface it as its own verdict rather than quietly filing it under "genuine gap." The user should see that pattern before committing.
+If deep research turns up several independent attempts at the same idea, all abandoned, with a consistent reason (not just "ran out of time") — that's a distinct signal from "nothing exists" (proceed to build) or "a library exists" (use it). Surface it as its own verdict rather than quietly filing it under "a gap." The user should see that pattern before committing.
 
 ## Output
 
