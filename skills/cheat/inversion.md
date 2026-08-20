@@ -12,7 +12,7 @@ Categorize:
 | Category | Signal | Action |
 |----------|--------|--------|
 | **Problem** | Something breaks. Real pain. | Trace the pain. Is the proposed solution the actual fix, or is there a root-cause fix that's cheaper? |
-| **QoL / preference** | Nothing breaks. User just wants it. | Don't question further. "OK — this is about making things nicer." |
+| **QoL / preference** | Nothing breaks. User wants it. | Don't question further. "OK — this is about making things nicer." |
 | **External requirement** | Compliance, contract, audit, "must have." | Don't question further. "External constraint — no gatekeeping." |
 
 ## For Problem

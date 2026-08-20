@@ -12,7 +12,7 @@ Before any external source: has this repo/project already solved it? Cheapest po
 ## Verdict
 
 - **Found working code/asset** → use or adapt it. Skip to Phase 3 output only if adaptation is nontrivial.
-- **Found an abandoned attempt** → read it before dismissing it. Why did it stall — technical dead end, or just deprioritized?
+- **Found an abandoned attempt** → read it before dismissing it. Why did it stall — technical dead end, or deprioritized?
 - **Found a prior explicit decision not to build this** → surface it to the user before proceeding. Circumstances may have changed, but don't silently ignore it.
 - **Nothing found** → proceed to Phase 1.
 

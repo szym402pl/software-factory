@@ -56,7 +56,7 @@ The frontier = open, unblocked, unclaimed child tickets. This is the edge of wha
 
 ## Fog of war
 
-The map is deliberately incomplete. The test: can you state the question **precisely** now? (Not *answer* it — just *phrase* it sharply.)
+The map is deliberately incomplete. The test: can you state the question **precisely** now? (Not *answer* it — *phrase* it sharply.)
 
 - Sharp question → ticket (even if blocked)
 - Fuzzy shape → "Not yet specified"

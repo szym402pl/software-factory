@@ -42,7 +42,7 @@ Disclosed reference for `writing-great-skills`. Every term is a lever on **Predi
 
 **Completion Criterion** — the condition telling the agent a unit of work is done. Its **clarity** resists **premature completion**; its **demand** sets **legwork**.
 
-**Premature Completion** — ending a step before it's genuinely done, attention slipping to _being done_ because **post-completion steps** are visible ahead. Defence: sharpen the criterion first (cheap, local); only split by sequence when the criterion is irreducibly fuzzy _and_ you observe the rush.
+**Premature Completion** — ending a step before it's done, attention slipping to _being done_ because **post-completion steps** are visible ahead. Defence: sharpen the criterion first (cheap, local); only split by sequence when the criterion is irreducibly fuzzy _and_ you observe the rush.
 
 **Post-Completion Steps** — the steps still ahead that tempt the agent to rush the current one. Visible in-skill; hiding them (splitting by sequence) encourages more legwork.
 

@@ -7,7 +7,7 @@ A structured comment that serves as the authoritative spec an AFK agent works fr
 - **Durability over precision** — briefs must stay useful as the codebase evolves. Describe interfaces, types, and behavioral contracts. Name specific types, signatures, and config shapes. Never reference file paths or line numbers.
 - **Behavioral, not procedural** — describe what the system should do, not how to implement it. The agent explores the codebase fresh and makes its own implementation decisions.
 - **Complete acceptance criteria** — every brief needs concrete, testable, independently verifiable criteria so the agent knows when it's done.
-- **Explicit scope boundaries** — state what's out of scope to prevent gold-plating or assumptions about adjacent features.
+- **Explicit scope boundaries** — state what's out of scope to prevent extra work or assumptions about adjacent features.
 
 ## Template
 

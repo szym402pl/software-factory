@@ -1,0 +1,92 @@
+ASD-STE100 SIMPLIFIED TECHNICAL ENGLISH — CONDENSED WRITING RULES (Issue 9)
+(Rule statements only — no dictionary/word definitions)
+
+SECTION 1 — WORDS
+1.1  Use words that are: approved in the dictionary, technical nouns, or technical verbs.
+1.2  Use approved words from the dictionary only as the specified part of speech.
+1.3  Use approved words only with their approved meanings.
+1.4  Use only the approved forms of verbs and adjectives.
+1.5  You can use words that fit into a technical noun category.
+1.6  Use a word that is not approved in the dictionary only when it is a technical noun or part of one.
+1.7  Do not use technical nouns as verbs.
+1.8  Use technical nouns that are approved in your company, industry, or subject field.
+1.9  When you must select a technical noun, use one that is short and easy to understand.
+1.10 Do not use regional, slang, or jargon words as technical nouns.
+1.11 Do not use different technical nouns for the same item.
+1.12 You can use verbs that fit into a technical verb category.
+1.13 Do not use technical verbs as nouns.
+1.14 Use American English spelling, unless other official directives say otherwise.
+
+SECTION 2 — MULTI-WORD NOUNS
+2.1  Write multi-word nouns of no more than three words.
+2.2  When a technical noun has more than three words, write it in full, then clarify with a
+     shorter form or hyphens between words used as one unit.
+
+SECTION 3 — VERBS
+3.1  Use only the verb forms given in the dictionary.
+3.2  Use only these verb forms/tenses: infinitive, imperative, simple present, simple past,
+     simple future, and past participle (as an adjective).
+3.3  Use the past participle form as an adjective.
+3.4  Do not use auxiliary verbs to make complex verb constructions.
+3.5  Use the "-ing" form of a verb only as a technical noun or as a modifier in a technical noun.
+3.6  Use the active voice. In descriptive writing, use the passive voice only when the agent
+     is unknown.
+3.7  Use an approved verb to describe an action, not a noun or other part of speech.
+
+SECTION 4 — SENTENCES
+4.1  Write short and clear sentences.
+4.2  Do not omit words or use contractions to make sentences shorter.
+4.3  Use a vertical list for complex text.
+4.4  Use connecting words and phrases to connect sentences that contain related topics.
+4.5  When applicable, use an article (the, a, an) or a demonstrative adjective (this, these)
+     before a noun or multi-word noun.
+
+SECTION 5 — PROCEDURAL WRITING
+5.1  Write short sentences — maximum 20 words each.
+5.2  Write only one instruction per sentence, unless two or more actions occur simultaneously.
+5.3  Write instructions in the imperative (command) form.
+5.4  When a condition must be known first, start the instruction with a descriptive statement,
+     separated from the command by a comma.
+5.5  Write notes only to give information, never instructions.
+
+SECTION 6 — DESCRIPTIVE WRITING
+6.1  Give information gradually.
+6.2  Use key words and key phrases to give text a logical structure.
+6.3  Write short sentences — maximum 25 words each.
+6.4  Use paragraphs to show related information.
+6.5  Make sure each paragraph has only one topic.
+6.6  Make sure no paragraph has more than six sentences.
+
+SECTION 7 — SAFETY INSTRUCTIONS
+7.1  Use an applicable word (e.g., "warning" or "caution") to identify the level of risk.
+7.2  Start a safety instruction with a clear and accurate command or condition.
+7.3  Give an explanation to show the risk or possible result.
+
+SECTION 8 — PUNCTUATION AND WORD COUNT
+8.1  You can use all standard English punctuation marks except the semicolon (;).
+8.2  Use hyphens (-) to connect words that are directly related.
+8.3  You can use parentheses to: reference illustrations/text; include identifying letters or
+     numbers; identify work steps; include abbreviations; give singular/plural forms together;
+     explain words or part of a sentence; include an alternative.
+8.4  In a vertical list, a colon (:) has the same effect on word count as a period and shows
+     the end of a sentence.
+8.5  Text in parentheses counts as one word in that sentence.
+8.6  Count each of these as one word: numbers; numbers with units of measurement;
+     abbreviations; alphanumeric identifiers; quoted text; titles/headings/placards/labels;
+     proper nouns of individuals, groups, organizations, and geopolitical entities.
+8.7  Hyphenated words count as one word.
+
+SECTION 9 — WRITING PRACTICES
+9.1  Use a different sentence construction when a word-for-word replacement is not sufficient.
+9.2  Use each approved word correctly.
+9.3  When using two words together, do not make phrasal verbs.
+9.4  When selecting terminology or wording, always use a consistent style.
+
+GENERAL RECOMMENDATIONS (topics, not strict rules)
+GR-1  The conjunction "that"
+GR-2  The preposition "with"
+GR-3  How to use pronouns
+GR-4  The pronoun "this"
+GR-5  False friends
+GR-6  Inclusive language
+GR-7  Possessive form
