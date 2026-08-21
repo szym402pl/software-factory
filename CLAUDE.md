@@ -4,12 +4,13 @@
 
 - **Research-first.** Check installed deps and codebase first. Then WebSearch → GitHub → npm only if needed. Adopting anything → run it through `cheat`'s license/supply-chain check first.
 - **Branch gate.** Never edit `main` directly. Branch per feature/fix. Hook blocks it physically.
-- **Folder structure.** `src/` organized in vertical slices — one folder per feature — with hexagonal layering inside each slice (ports + adapters at the seam). Readable over elaborate.
+- **Architecture.** Modular monolith — `src/` in vertical slices by business capability, one folder per capability. Complex slices get ports & adapters at the seam; CRUD slices stay transaction scripts. Enforce boundaries: slices depend on shared infra, never on each other. AI-navigation is context legibility, not an "AI-navigable" pattern. Readable over elaborate.
 - **Concision.** When reporting to the user, be extremely concise. Sacrifice grammar for concision.
 - **No Explore subagent.** Never use `Agent(subagent_type="Explore")`. Each spawn eats ~50K tokens (cold cache miss). Use Grep/Glob tools directly.
 - **Read lean.** Grep before Read. For a few lines, Grep with `-n -C`, or Read with `offset`/`limit` — never the whole file. Full Read only when the whole file is the unit (short file, or you need the full shape).
 - **Only factory skills.** Never invoke skills outside `skills/` directory. No caveman, no ponytail, no external plugins.
 - **STE writing.** When writing docs (README, spec, tickets, comments): read `STE-Writing-Rules-Condensed.txt` first and follow it.
+ - **Batch actions.** When a flow has obvious next steps, do them in one pass - don't necessarily ask question after question.
 
 ## Navigation
 
