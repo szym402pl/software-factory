@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Improve Codebase Architecture
 
-Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and AI-navigability.
+Surface architectural friction and propose **deepening opportunities** — refactors that turn shallow modules into deep ones. The aim is testability and context legibility.
 
 This command is _informed_ by the project's domain model and built on a shared design vocabulary:
 
